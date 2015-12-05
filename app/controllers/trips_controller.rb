@@ -20,7 +20,7 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(user_id: current_user.id)
     @trip.start_point = Station.find_by(uid: params[:station_id])
-
+    
     if @trip.save
       render json: @trip, status: :created, location: @trip
     else
