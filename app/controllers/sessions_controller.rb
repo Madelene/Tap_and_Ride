@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     user = user_email.present? && User.find_by(email: user_email)
 
     if user.authenticate user_password
-      sign_in user, store: false
+      @current_user = user
       user.generate_authentication_token!
       user.save
       render json: user, status: 200, location: [:api, user]
