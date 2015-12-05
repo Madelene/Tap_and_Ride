@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
     user_email = params[:session][:email]
     user = user_email.present? && User.find_by(email: user_email)
 
-    if user.authenticate user_password
+    if user && user.authenticate(user_password)
       @current_user = user
       user.generate_authentication_token!
       user.save

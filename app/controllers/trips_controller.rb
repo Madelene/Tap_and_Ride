@@ -18,6 +18,7 @@ class TripsController < ApplicationController
   # POST /trips
   # POST /trips.json
   def create
+    binding.pry
     @trip = Trip.new(user_id: current_user.id)
     @trip.start_point = Station.find_by(uid: params[:station_id])
 
@@ -33,8 +34,8 @@ class TripsController < ApplicationController
   def update
     @trip = Trip.find(params[:id])
 
-    if @trip.update(trip_params)
-      head :no_content
+    if @trip.end_point = Station.find_by(uid: params[:station_id])
+      render json: @trip, location: @trip
     else
       render json: @trip.errors, status: :unprocessable_entity
     end
@@ -55,6 +56,6 @@ class TripsController < ApplicationController
     end
 
     def trip_params
-      params.require(:trip).permit(:user_id, :station_id)
+      params.require(:trip).permit(:user_id, :start_point_id, :end_point_id)
     end
 end
