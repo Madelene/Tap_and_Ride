@@ -1,4 +1,4 @@
-class AppointmentsController < ApplicationController
+class UsersController < ApplicationController
   before_action :set_appt, only: [:update, :destroy]
 
 # GET
