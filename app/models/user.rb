@@ -1,4 +1,3 @@
-require 'digest/sha1'
 class User < ActiveRecord::Base
   before_create :generate_authentication_token!
 	has_secure_password
