@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-
+  before_action :set_user, only: [:show]
+  before_action :authenticate_with_token!, only: [:update, :destroy]
   # GET /users
   # GET /users.json
   def index
@@ -30,21 +30,20 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user = User.find(params[:id])
+    user = current_user
 
-    if @user.update(user_params)
-      head :no_content
+    if user.update(user_params)
+      render json: user, status: 200, location: [:api, user]
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: { errors: user.errors }, status: 422
     end
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-
-    head :no_content
+    current_user.destroy
+    head 204
   end
 
   private
