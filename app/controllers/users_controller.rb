@@ -1,74 +1,52 @@
-class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+class AppointmentsController < ApplicationController
+  before_action :set_appt, only: [:update, :destroy]
 
-  # GET /users
-  # GET /users.json
+# GET
   def index
-    @users = User.all
+      user = User.all #issues query to database
+
+    if start_time = params[:start_time]
+      user = user.where(start_time: start_time) #adding filters, dynamically, with "where" method
+    end
+
+    if end_time = params[:end_time]
+      user = user.where(end_time: end_time)
+    end
+      render json: user, status: 200 #fetching all of the appointments and returning them as json
   end
 
-  # GET /users/1
-  # GET /users/1.json
-  def show
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-  end
-
-  # POST /users
-  # POST /users.json
+# POST
   def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+  user = User.new(user_params)
+      if user.save
+        render nothing: :true, status: 204, location: user #204 == no content
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        render json: user.errors, status: :unprocessable_entity #same as 422
       end
-    end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
+# PUT/PATCH
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @appointment.update(appointment_params)
+    render json: @appointment, status: 200
+    else
+    render json: @appointment.errors, status: 422
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
+# DELETE
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+      @user.destroy #removes the record from the database
+      head 204
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+    private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone, :password, :password_confirmation)
-    end
+  def user_params
+      params.require(:user).permit(:first_name, :last_name, :password, :password_confirm, :email, :phone)
+  end
+
+  def set_appt
+      @user = User.find(params[:id])
+  end
 end
