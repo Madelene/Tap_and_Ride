@@ -1,40 +1,28 @@
-== Appointment API
+== README
 
-This API is to be used to interact with other web apps that need to get access to
-appointments of the users. All appointments must have a first and last name along
-with a start and finish time. Appointments are not allowed to overlap.
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-Chosen Technology
+Things you may want to cover:
 
--Rails was chosen in order provide integration testing and a RESTful web API framework.
+* Ruby version
 
--All CRUD operations were developed into the application.
+* System dependencies
 
-Testing
+* Configuration
 
--Integration testing was implemented to ensure a fully functional API. Also the
-API was developed with TDD.
+* Database creation
 
-Hosting
+* Database initialization
 
--Heroku was chosen to host the API. Heroku requires Postgres server in order to
-run. Heroku also has fast rails implementation.
+* How to run the test suite
 
--http://ancient-wave-4253.herokuapp.com/
+* Services (job queues, cache servers, search engines, etc.)
 
-Functionality
+* Deployment instructions
 
--Create:
-  -Creates with the specific rules not to overlap appointments, only allow
-  appointments in the future.
+* ...
 
--Read:
-  -root will provide a full list of appointments in JSON format
-  -allows filtering based on start_time or end_time only using. ex: /?end_time=
 
--Update
-  -Appointments can be updated based on appointment ID
-  -ex: use /appointmentID  { appointment: { first_name: 'New Name' } }
-
--Destroy
-  -Deleting can be done form /appointmentID
+Please feel free to use a different markup language if you do not plan to run
+<tt>rake doc:app</tt>.

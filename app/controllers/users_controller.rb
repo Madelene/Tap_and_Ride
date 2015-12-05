@@ -1,51 +1,59 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :update, :destroy]
 
-
+  # GET /users
+  # GET /users.json
   def index
-   users = user.all
+    @users = User.all
 
-   if start_time = params[:start_time]
-     users = users.where(start_time: start_time)
-   end
-
-   if end_time = params[:end_time]
-     users = users.where(end_time: end_time)
-   end
-
-   render json: users, status: 200
+    render json: @users
   end
 
+  # GET /users/1
+  # GET /users/1.json
+  def show
+    render json: @user
+  end
+
+  # POST /users
+  # POST /users.json
   def create
-    user = user.new(user_params)
-    if user.check
-      if user.save
-        render json: user, status: :created, location: user
-      else
-        ￼render json: user.errors, status: 422
-      end
+    @user = User.new(user_params)
+
+    if @user.save
+      render json: @user, status: :created, location: @user
     else
-      render json: user.errors, status: 422
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
+  # PATCH/PUT /users/1
+  # PATCH/PUT /users/1.json
   def update
-     user = user.find(params[:id])
-     if user.update(user_params)
-       render json: user, status: 200
-     else
-       render json: user, status: 422
-     end
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      head :no_content
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
+  # DELETE /users/1
+  # DELETE /users/1.json
   def destroy
-    user = user.find(params[:id])
-    user.destroy
-    head 204
+    @user.destroy
+
+    head :no_content
   end
 
   private
-  def user_params
-    params.require(:user).permit(:start_time, :end_time, :first_name, :last_name, :comments)
-  end
 
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:email, :password)
+    end
 end
