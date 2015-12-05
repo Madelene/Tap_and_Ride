@@ -22,7 +22,7 @@ class TripsController < ApplicationController
     @trip.start_point = Station.find_by(uid: params[:station_id])
     
     if @trip.save
-      render json: @trip, status: :created, location: @trip
+      render json: @trip.attributes.merge(station: @trip.start_point.attributes), status: :created, location: @trip
     else
       render json: @trip.errors, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class TripsController < ApplicationController
     @trip = Trip.find(params[:id])
 
     if @trip.end_point = Station.find_by(uid: params[:station_id])
-      render json: @trip, location: @trip
+      render json: @trip.attributes.merge(station: @trip.end_point.attributes), location: @trip
     else
       render json: @trip.errors, status: :unprocessable_entity
     end
