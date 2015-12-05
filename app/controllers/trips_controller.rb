@@ -18,7 +18,6 @@ class TripsController < ApplicationController
   # POST /trips
   # POST /trips.json
   def create
-    binding.pry
     @trip = Trip.new(user_id: current_user.id)
     @trip.start_point = Station.find_by(uid: params[:station_id])
 
