@@ -18,7 +18,7 @@ class TripsController < ApplicationController
   # POST /trips
   # POST /trips.json
   def create
-    @trip = Trip.new(user_id: params[:user_id])
+    @trip = Trip.new(user_id: current_user.id)
     @trip.start_point = Station.find_by(uid: params[:station_id])
 
     if @trip.save
