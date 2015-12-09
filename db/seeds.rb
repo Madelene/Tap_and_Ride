@@ -8,3 +8,7 @@
 
 Station.create(uid: '370700003d4558', name: 'Microsoft Station')
 Station.create(uid: '370700003d44fa', name: 'ATT Station')
+
+Station.create(uid: '370700003d42cf', name: 'Wyncode Station')
+Station.create(uid: '370700003d42cd', name: 'Wyncode Station')
+Station.create(uid: '3707000036046a', name: 'Miami-Tech Central')
