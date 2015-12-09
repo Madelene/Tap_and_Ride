@@ -20,8 +20,13 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(user_id: current_user.id)
     @trip.start_point = Station.find_by(uid: params[:station_id])
-    
+    #Defined current user and updated credits. This change may cause issues.
+    @current_user = current_user
+    @current_user.credits = (@current_user.credits - 1)
+
     if @trip.save
+      @current_user.save
+      #This is where the change ends
       render json: @trip.attributes.merge(station: @trip.start_point.attributes), status: :created, location: @trip
     else
       render json: @trip.errors, status: :unprocessable_entity
